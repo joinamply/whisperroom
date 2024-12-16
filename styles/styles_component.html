@@ -1,0 +1,117 @@
+<!-- Navbar -->
+<style>
+    .navbar_navbar.is-scrolling,
+    .navbar_navbar.is-dropdown-open,
+    .navbar_navbar.is-menu-open {
+        & .navbar_background-color {
+            opacity: 1;
+        }
+
+        @media screen and (min-width: 992px) {
+            & .navbar_button-wrapper {
+                --color-action--secondary-text: var(--color-action--primary-text);
+                --color-action--secondary-hover-text: var(--color-action--primary-hover-text);
+                --color-action--secondary-background: var(--color-action--primary-background);
+                --color-action--secondary-hover-background: var(--color-action--primary-hover-background);
+                --color-action--secondary-border: var(--color-action--primary-border);
+                --color-action--secondary-hover-border: var(--color-action--primary-hover-border);
+            }
+
+            & .navbar_brand-image {
+                filter: brightness(0%);
+            }
+
+            & .navbar-dropdown_toggle {
+                color: var(--color-library--black-whisperroom);
+            }
+
+            & .navbar-dropdown_icon-h {
+                background-color: var(--color-library--black-whisperroom);
+            }
+
+            & .navbar-dropdown_icon-v {
+                background-color: var(--color-library--black-whisperroom);
+            }
+        }
+    }
+</style>
+
+<!-- Header 1 -->
+<style>
+    @media screen and (min-width: 1490px) {
+        .header-1_background-mask {
+            opacity: 1;
+        }
+    }
+</style>
+
+<!-- Buttons -->
+<style>
+    /* Primary */
+    [data-wf--button---primary--button-button---size="regular"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    [data-wf--button---primary--button-button---size="small"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    [data-wf--button---primary--button-button---size="large"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    /* Secondary */
+    [data-wf--button---secondary--button-button---size="regular"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    [data-wf--button---secondary--button-button---size="small"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    [data-wf--button---secondary--button-button---size="large"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    /* Text */
+    [data-wf--button---text--button-button---size="regular"] .button-icon_component {
+        width: var(--size-icon--xsmall);
+        height: var(--size-icon--xsmall);
+    }
+
+    [data-wf--button---text--button-button---size="small"] .button-icon_component {
+        width: var(--size-icon--xxsmall);
+        height: var(--size-icon--xxsmall);
+    }
+
+    [data-wf--button---text--button-button---size="large"] .button-icon_component {
+        width: var(--size-icon--small);
+        height: var(--size-icon--small);
+    }
+</style>
+
+<!-- Link - Images -->
+<style>
+    a [link-animate="image"] {
+        transition-property: transform;
+        transition-duration: 300ms;
+        transition-timing-function: ease;
+    }
+
+    a:hover [link-animate="image"] {
+        transform: scale(1.03);
+    }
+</style>
+
+<!-- Isolation Test - Toggle -->
+<style>
+    .isolation-test-toggle_toogle.is-active .isolation-test-toggle_slider {
+        transform: translate(100%, 0%);
+    }
+</style>

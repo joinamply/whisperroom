@@ -1,0 +1,371 @@
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // ====================
+        // Swiper Slider
+        // ====================
+        $(".swiper_component").each(function () {
+            let slidesPerView = $(this).attr("slides-per-view") !== undefined ? $(this).attr("slides-per-view") : "auto";
+            if (slidesPerView != "auto") {
+                slidesPerView = parseFloat(slidesPerView);
+            }
+            let followFinger = $(this).attr("follow-finger") !== undefined ? $(this).attr("follow-finger") === "true" : false;
+            let speed = $(this).attr("speed") !== undefined ? parseFloat($(this).attr("speed")) : 500;
+            let autoHeight = $(this).attr("auto-height") !== undefined ? $(this).attr("auto-height") === "true" : false;
+            let effect = $(this).attr("effect") !== undefined ? $(this).attr("effect") : "slide"; // slide, fade, flip, coverflow, cards, cube
+            let loop = $(this).attr("set-loop") !== undefined ? $(this).attr("set-loop") === "true" : false;
+            let loopAdditionalSlides = $(this).attr("loop-additional-slides") !== undefined ? parseFloat($(this).attr("loop-additional-slides")) : 0;
+            let centeredSlides = $(this).attr("centered-slides") !== undefined ? $(this).attr("centered-slides") === "true" : false;
+            let autoPlay = $(this).attr("auto-play") !== undefined ? $(this).attr("auto-play") === "true" : false;
+            let pauseOnHover = $(this).attr("pause-on-hover") !== undefined ? $(this).attr("pause-on-hover") === "true" : false;
+
+            const totalSlides = $(this).find('.swiper-slide').length;
+
+            const swiperConfig = {
+                effect: effect,
+                slidesPerView: slidesPerView,
+                slidesPerGroupAuto: false,
+                followFinger: followFinger,
+                speed: speed,
+                autoHeight: autoHeight,
+                a11y: true,
+                loop: loop,
+                loopAdditionalSlides: loopAdditionalSlides,
+                centeredSlides: centeredSlides,
+                loopAddBlankSlides: true,
+                pagination: {
+                    el: $(this).find(".swiper_bullets-wrapper")[0],
+                    bulletActiveClass: "is-active",
+                    bulletClass: "swiper_bullet",
+                    bulletElement: "button",
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: $(this).find('[swiper-button="next"]')[0],
+                    prevEl: $(this).find('[swiper-button="prev"]')[0],
+                    disabledClass: "is-disabled"
+                }
+            };
+
+            switch (effect) {
+                case "fade":
+                    swiperConfig.fadeEffect = {
+                        crossFade: true
+                    };
+                    break;
+                case "flip":
+                    swiperConfig.flipEffect = {
+                        slideShadows: true,
+                        limitRotation: true
+                    };
+                    break;
+                case "cube":
+                    swiperConfig.cubeEffect = {
+                        slideShadows: true,
+                        shadow: true,
+                        shadowOffset: 20,
+                        shadowScale: 0.94
+                    };
+                    break;
+                case "coverflow":
+                    swiperConfig.coverflowEffect = {
+                        rotate: 50,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true
+                    };
+                    break;
+                case "cards":
+                    swiperConfig.cardEffect = {
+                        slideShadows: true,
+                        modifier: 1,
+                        shadow: true,
+                        shadowOffset: 20,
+                        shadowScale: 0.94
+                    };
+                    break;
+            }
+
+            if (autoPlay) {
+                swiperConfig.autoplay = {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                };
+            }
+
+            const swiper = new Swiper($(this).find(".swiper")[0], swiperConfig);
+
+            if (pauseOnHover) {
+                $(this).on("mouseenter", function () {
+                    swiper.autoplay.stop();
+                });
+                $(this).on("mouseleave", function () {
+                    swiper.autoplay.start();
+                });
+            }
+
+            // Get the current slide and play the thumb video if it has one
+            let currentSlide = swiper.slides[swiper.activeIndex];
+            $(currentSlide).find('.thumb-plyr_wrap').each(function () {
+                ScrollTrigger.create({
+                    trigger: $(this),
+                    start: "top bottom",
+                    end: "+=0",
+                    onEnter: () => {
+                        let thumbPlyrIndex = $(this).attr('thumb-plyr');
+                        playThumbPlyr($(this), thumbPlyrIndex);
+                    },
+                });
+            });
+
+            swiper.on('slideChange', function () {
+                let currentSlide = swiper.slides[swiper.activeIndex];
+                let previousSlide = swiper.slides[swiper.previousIndex];
+
+                // Stop previous slide
+                $(previousSlide).find('.thumb-plyr_wrap').each(function () {
+                    let thumbPlyrIndex = $(this).attr('thumb-plyr');
+                    stopThumbPlyr($(this), thumbPlyrIndex);
+                });
+
+                // Play current slide
+                $(currentSlide).find('.thumb-plyr_wrap').each(function () {
+                    let thumbPlyrIndex = $(this).attr('thumb-plyr');
+                    playThumbPlyr($(this), thumbPlyrIndex);
+                });
+
+                // Ensure thumb player is properly initialized and played
+                $(currentSlide).find('.plyr_thumb').each(function () {
+                    let thumbPlyrIndex = $(this).attr('thumb-plyr');
+                    if (!thumbPlayers[thumbPlyrIndex].playing) {
+                        playThumbPlyr($(this).closest('.thumb-plyr_wrap'), thumbPlyrIndex);
+                    }
+                });
+            });
+        });
+
+        // Change all slides roles to prevent an accessibility issue
+        $(".swiper-slide").attr("role", "listitem");
+
+        // ==============================
+        // Flex to Swiper
+        // ==============================
+        function initSwiperFlex(parent) {
+            let swiperInstance = parent.data('swiperInstance');
+            if (!parent.data('initialHTML')) {
+                parent.data('initialHTML', parent.html());
+            }
+            if (window.innerWidth <= 767 && !swiperInstance) {
+                swiperInstance = new Swiper(parent.find('.swiper')[0], {
+                    slidesPerView: 'auto',
+                    speed: 500,
+                    autoHeight: false,
+                    a11y: true,
+                    pagination: {
+                        el: parent.find(".swiper_bullets-wrapper")[0],
+                        bulletActiveClass: "is-active",
+                        bulletClass: "swiper_bullet",
+                        bulletElement: "button",
+                        clickable: true
+                    },
+                    navigation: {
+                        nextEl: parent.find('[swiper-button="next"]')[0],
+                        prevEl: parent.find('[swiper-button="prev"]')[0],
+                        disabledClass: "is-disabled"
+                    }
+                });
+                parent.data('swiperInstance', swiperInstance);
+            }
+            else if (window.innerWidth > 767 && swiperInstance) {
+                swiperInstance.destroy(true, true); // Destroys the swiper instance
+                parent.html(parent.data('initialHTML'));
+                parent.removeData('swiperInstance');
+            }
+        }
+
+        $(window).on('resize', function () {
+            $(".swiper-flex_component").each(function () {
+                initSwiperFlex($(this));
+            });
+        });
+
+        // Trigger the resize event to initialize the swiper
+        $(window).trigger('resize');
+
+        // ==============================  
+        // GLightbox 
+        // For more info visit: https://github.com/biati-digital/glightbox
+        // ==============================
+        $('.lightbox-simple_component').each(function (index) {
+            const touchNavigation = $(this).attr('lb-touch-navigation');
+            const loop = $(this).attr('lb-loop');
+            const autoplayVideos = $(this).attr('lb-autoplay-videos');
+            const dataGallery = $(this).attr('data-gallery');
+            const lightbox = GLightbox({
+                touchNavigation: touchNavigation,
+                loop: loop,
+                autoplayVideos: autoplayVideos,
+                selector: '.lightbox-simple_component',
+            });
+        });
+
+        // ==============================
+        // Navbar - Scroll
+        // ==============================
+        ScrollTrigger.create({
+            trigger: "body",
+            start: "top+=75 top",
+            end: "+=0",
+            onEnter: () => $(".navbar_navbar").addClass("is-scrolling"),
+            onEnterBack: () => $(".navbar_navbar").removeClass("is-scrolling"),
+        });
+
+        // ==============================
+        // Navbar - Dropdown
+        // ==============================
+        $('.navbar-dropdown-1').on("mouseenter", function () {
+            if (!$(".navbar_navbar").hasClass("is-dropdown-open")) {
+                $(".navbar_navbar").addClass("is-dropdown-open");
+            }
+        });
+
+        $('.navbar-dropdown-1_list').on("mouseenter", function () {
+            if (!$(".navbar_navbar").hasClass("is-dropdown-open")) {
+                $(".navbar_navbar").addClass("is-dropdown-open");
+            }
+        });
+
+        $('.navbar-dropdown-1').on("mouseleave", function () {
+            if ($(".navbar_navbar").hasClass("is-dropdown-open")) {
+                $(".navbar_navbar").removeClass("is-dropdown-open");
+            }
+        });
+
+        $('.navbar-dropdown-1_list').on("mouseleave", function () {
+            if ($(".navbar_navbar").hasClass("is-dropdown-open")) {
+                $(".navbar_navbar").removeClass("is-dropdown-open");
+            }
+        });
+
+        // ==============================
+        // Navbar - Menu
+        // ==============================
+        $('.navbar_menu-button').on("click", function () {
+            $(".navbar_navbar").toggleClass("is-menu-open");
+        });
+
+        // ==============================
+        // Heading - Word Animation
+        // ==============================
+        let yOffset = 1; // Offset to avoid the next word to be visible
+        $('[el-wrapper="title"]').each(function () {
+            let words = $(this).attr('words-anim-list') !== undefined ? $(this).attr('words-anim-list').split(',') : "";
+            let wordToAnim = $(this).find('sub');
+            if (words.length <= 1 || wordToAnim.length <= 0) {
+                return;
+            }
+            let parent = wordToAnim.parent();
+            parent.css('position', 'relative');
+            parent.css('display', 'flex');
+            parent.css('flex-direction', 'column');
+            parent.css('align-items', 'flex-start');
+            parent.css('justify-content', 'flex-start');
+            parent.css('overflow-y', 'hidden');
+            parent.css('height', `${wordToAnim.height() / 16}rem`);
+            // Adds a span to host the list of words
+            let wordsWrapper = document.createElement('span');
+            $(wordsWrapper).css('display', 'flex');
+            $(wordsWrapper).css('flex-direction', 'column');
+            $(wordsWrapper).css('justify-content', 'flex-start');
+            $(wordsWrapper).css('align-items', 'flex-start');
+            $(wordsWrapper).css('flex-grow', '0');
+            $(wordsWrapper).css('flex-shrink', '0');
+            // Add the sub word first
+            let span = document.createElement('span');
+            span.textContent = wordToAnim.text();
+            wordsWrapper.append(span);
+            // Add the words to the parent element
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i];
+                span = document.createElement('span');
+                span.textContent = word;
+                wordsWrapper.append(span);
+            }
+            // Now add the sub word again to create the loop
+            span = document.createElement('span');
+            span.textContent = wordToAnim.text();
+            wordsWrapper.append(span);
+            // Remove the original sub word
+            wordToAnim.remove();
+            // Append the words wrapper to the parent
+            parent.append(wordsWrapper);
+            // Set the initial position
+            gsap.set(wordsWrapper, { y: `${yOffset}%` });
+            // Animate the wordsWrapper
+            setTimeout(() => {
+                animateWordsWrapper(wordsWrapper, `${100 / (words.length + 2)}`, `${100 / (words.length + 2)}`);
+            }, 2000);
+
+        });
+
+        function animateWordsWrapper(wordsWrapper, posY, basePosY) {
+            posY = parseFloat(posY);
+            basePosY = parseFloat(basePosY);
+            gsap.to(wordsWrapper, {
+                y: `-${posY - yOffset}%`, // offset to avoid the next word to be visible
+                duration: 0.5,
+                ease: "power4.out",
+                onComplete: () => {
+                    setTimeout(() => {
+                        posY = posY + basePosY;
+                        if (posY >= 100) {
+                            gsap.set(wordsWrapper, { y: 0 });
+                            posY = basePosY;
+                        }
+                        animateWordsWrapper(wordsWrapper, posY, basePosY);
+                    }, 2000);
+                }
+            });
+        }
+
+        // ==============================
+        // Pulse Animation
+        // ==============================
+        $('.pulse-anim_component').each(function () {
+            let lines = $(this).find('.pulse-anim_top-line');
+            // Animate the first line
+            let tl = gsap.timeline({
+                paused: true,
+                repeat: 0,
+                scrollTrigger: {
+                    trigger: $(this),
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    markers: false
+                }
+            });
+            for (let i = 0; i < lines.length; i++) {
+                // Get the current width and add 5%
+                let width = $(lines[i]).width();
+                let widthFrom = width - (width * 0.05);
+                // Get current transform Y and add 20%;
+                let posY = $(lines[i]).position().top;
+                let posyFrom = posY - (posY * 0.2);
+                let opacity = $(lines[i]).css('opacity');
+                // Animate from those values
+                tl.fromTo(lines[i], {
+                    width: widthFrom,
+                    y: posyFrom,
+                    opacity: 0
+                }, {
+                    width: width,
+                    y: posY,
+                    opacity: opacity,
+                    duration: 2,
+                    ease: "power4.out"
+                }, i * 0.1);
+            }
+            gsap.set(lines, { opacity: 0 });
+        });
+    });  // Make sure to keep this in the end
+</script>
