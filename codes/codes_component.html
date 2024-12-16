@@ -367,5 +367,99 @@
             }
             gsap.set(lines, { opacity: 0 });
         });
+
+        // ==============================
+        // Isolation Test - Animation
+        // ==============================
+        $('.isolation-test-tab_content-wrapper').each(function () {
+            // Sound
+            const soundOutsidePath = $(this).find('.isolation-test_sound-outside').attr('sound-path');
+            const soundInsidePath = $(this).find('.isolation-test_sound-inside').attr('sound-path');
+
+
+            // Animation
+            const pixiPlayer = $(this).find('.isolation-test_pixi-player');
+            const totalFrames = parseFloat(pixiPlayer.attr('anim-frames'));
+            const imagesPath = pixiPlayer.attr('images-path');
+
+            const pixiApp = new PIXI.Application({
+                width: pixiPlayer.width(),
+                height: pixiPlayer.height(),
+                transparent: true,
+                antialias: true,
+                resolution: window.devicePixelRatio,
+                autoDensity: true
+            });
+            pixiPlayer.append(pixiApp.view);
+
+            const frames = [];
+            for (let i = 0; i < totalFrames; i++) {
+                let frameNum = i.toString().padStart(3, '0');
+                let frame = PIXI.Texture.from(`${imagesPath}${frameNum}.png`);
+                frames.push(frame);
+            }
+
+            // Create Sprite and Set Initial Frame
+            const sprite = new PIXI.Sprite(frames[0]);
+            sprite.width = pixiApp.screen.width;
+            sprite.height = pixiApp.screen.height;
+            pixiApp.stage.addChild(sprite);
+            let animInterval;
+            let currentType = "outside";
+
+            function playSprite(playForward) {
+                let currentFrame = 0;
+                if (animInterval) {
+                    clearInterval(animInterval);
+                }
+                if (playForward) {
+                    animInterval = setInterval(() => {
+                        sprite.texture = frames[currentFrame];
+                        currentFrame++;
+                        if (currentFrame >= totalFrames) {
+                            clearInterval(animInterval);
+                        }
+                    }, 1000 / 60);
+                } else {
+                    currentFrame = totalFrames - 1;
+                    animInterval = setInterval(() => {
+                        sprite.texture = frames[currentFrame];
+                        currentFrame--;
+                        if (currentFrame < 0) {
+                            clearInterval(animInterval);
+                        }
+                    }, 1000 / 60);
+                }
+            }
+
+            // Animation Controls
+            const typeToggle = $(this).find('.isolation-test-toggle_toogle');
+            const typeLink = $(this).find('.isolation-test-toggle_link');
+
+            typeLink.on("click", function () {
+                if ($(this).hasClass("is-active")) {
+                    return;
+                }
+                typeLink.removeClass("is-active");
+                $(this).addClass("is-active");
+                currentType = $(this).attr("isolation-type");
+                if (currentType === "inside") {
+                    typeToggle.addClass("is-active");
+                    playSprite(true);
+                } else {
+                    typeToggle.removeClass("is-active");
+                    playSprite(false);
+                }
+            });
+
+            typeToggle.on("click", function () {
+                typeLink.each(function () {
+                    if (!$(this).hasClass("is-active")) {
+                        $(this).trigger("click");
+                        return false;
+                    }
+                });
+            });
+        });
     });  // Make sure to keep this in the end
 </script>
