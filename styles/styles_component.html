@@ -109,8 +109,18 @@
     }
 </style>
 
-<!-- Isolation Test - Toggle -->
+<!-- Isolation Test - Anim -->
 <style>
+    .isolation-test_play.is-playing {
+        & .isolation-test_play-icon.is-play {
+            opacity: 0;
+        }
+
+        & .isolation-test_play-icon.is-pause {
+            opacity: 1;
+        }
+    }
+
     .isolation-test-toggle_toogle.is-active .isolation-test-toggle_slider {
         transform: translate(100%, 0%);
     }

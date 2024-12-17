@@ -373,9 +373,59 @@
         // ==============================
         $('.isolation-test-tab_content-wrapper').each(function () {
             // Sound
-            const soundOutsidePath = $(this).find('.isolation-test_sound-outside').attr('sound-path');
-            const soundInsidePath = $(this).find('.isolation-test_sound-inside').attr('sound-path');
+            const soundOutsidePath = $(this).find('.isolation-test_player-wrapper').attr('sound-outside-path');
+            const soundInsidePath = $(this).find('.isolation-test_player-wrapper').attr('sound-inside-path');
+            const soundPlayButton = $(this).find('.isolation-test_play');
+            const soundTlProgress = $(this).find('.isolation-test_timeline-progress');
+            const soundTlProgressWrapper = $(this).find('.isolation-test_timeline-wrapper');
+            // 0 - outside, 1 - inside
+            const sounds = [];
+            sounds.push(new Howl({
+                src: [soundOutsidePath],
+                volume: 1,
+                loop: false
+            }));
+            sounds.push(new Howl({
+                src: [soundInsidePath],
+                volume: 1,
+                loop: false
+            }));
 
+            let currentSound = sounds[0];
+
+            function updateSoundSource() {
+                currentSound.stop();
+                if (currentType === "inside") {
+                    currentSound = sounds[1];
+                } else {
+                    currentSound = sounds[0];
+                }
+            }
+
+            soundPlayButton.on("click", function () {
+                if (currentSound.playing()) {
+                    currentSound.stop();
+                } else {
+                    currentSound.play();
+                }
+            });
+
+            sounds.forEach(function (sound) {
+                sound.on('play', function () {
+                    soundPlayButton.addClass("is-playing");
+                    gsap.set(soundTlProgress, { width: "0%" });
+                    gsap.to(soundTlProgress, {
+                        width: "100%",
+                        duration: currentSound.duration() - currentSound.seek(),
+                        ease: "none"
+                    });
+                });
+                sound.on('stop', function () {
+                    soundPlayButton.removeClass("is-playing");
+                    gsap.killTweensOf(soundTlProgress);
+                    gsap.set(soundTlProgress, { width: "0%" });
+                });
+            });
 
             // Animation
             const pixiPlayer = $(this).find('.isolation-test_pixi-player');
@@ -445,11 +495,14 @@
                 currentType = $(this).attr("isolation-type");
                 if (currentType === "inside") {
                     typeToggle.addClass("is-active");
+                    soundTlProgressWrapper.addClass("is-inside");
                     playSprite(true);
                 } else {
                     typeToggle.removeClass("is-active");
+                    soundTlProgressWrapper.removeClass("is-inside");
                     playSprite(false);
                 }
+                updateSoundSource();
             });
 
             typeToggle.on("click", function () {
