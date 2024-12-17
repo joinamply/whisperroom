@@ -431,6 +431,7 @@
             const pixiPlayer = $(this).find('.isolation-test_pixi-player');
             const totalFrames = parseFloat(pixiPlayer.attr('anim-frames'));
             const imagesPath = pixiPlayer.attr('images-path');
+            const fileFormat = pixiPlayer.attr('file-format');
 
             const pixiApp = new PIXI.Application({
                 width: pixiPlayer.width(),
@@ -445,7 +446,7 @@
             const frames = [];
             for (let i = 0; i < totalFrames; i++) {
                 let frameNum = i.toString().padStart(3, '0');
-                let frame = PIXI.Texture.from(`${imagesPath}${frameNum}.png`);
+                let frame = PIXI.Texture.from(`${imagesPath}${frameNum}${fileFormat}`);
                 frames.push(frame);
             }
 
@@ -512,6 +513,14 @@
                         return false;
                     }
                 });
+            });
+
+            // Additional Controls
+            $('.isolation-test-tab_tab-link').on("click", function () {
+                if ($(this).hasClass("w--current")) {
+                    return;
+                }
+                currentSound.stop();
             });
         });
     });  // Make sure to keep this in the end
