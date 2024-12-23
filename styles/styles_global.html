@@ -50,7 +50,7 @@
         appearance: none;
     }
 
-    /* Remove the blue color from the input when it gets autofilled
+    /* Remove the blue color from the input when it gets autofilled */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
@@ -65,7 +65,6 @@
         box-shadow: 0 0 0px 1000px transparent inset;
         transition: background-color 5000s ease-in-out 0s;
     }
-    */
 
     /* Hide element if collection is empty */
     [hide-if-empty]:not(:has(.w-dyn-item)) {
@@ -140,7 +139,7 @@
     }
 </style>
 
-<!-- Headings - Color Effect -->
+<!-- Heading - Color Effect -->
 <style>
     h1 strong,
     h2 strong,
@@ -164,6 +163,37 @@
         font-size: inherit;
         line-height: inherit;
         position: static;
+    }
+</style>
+
+<!-- Heading - Divider -->
+<style>
+    [heading-divider="yes"] {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            padding-bottom: var(--space--small);
+            border-bottom: 1px solid var(--color-border--primary);
+        }
+    }
+</style>
+
+<!-- Heading - All Caps -->
+<style>
+    [heading-all-caps="yes"] {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            text-transform: uppercase;
+        }
     }
 </style>
 

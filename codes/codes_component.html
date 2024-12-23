@@ -340,8 +340,9 @@
                 scrollTrigger: {
                     trigger: $(this),
                     start: "top 80%",
-                    end: "bottom 20%",
-                    markers: false
+                    end: "bottom top",
+                    markers: false,
+                    scrub: 2
                 }
             });
             for (let i = 0; i < lines.length; i++) {
@@ -383,7 +384,9 @@
             sounds.push(new Howl({
                 src: [soundOutsidePath],
                 volume: 1,
-                loop: false
+                loop: false,
+                autoplay: false,
+                html5: true
             }));
             sounds.push(new Howl({
                 src: [soundInsidePath],
@@ -517,10 +520,62 @@
 
             // Additional Controls
             $('.isolation-test-tab_tab-link').on("click", function () {
-                if ($(this).hasClass("w--current")) {
-                    return;
-                }
+                setTimeout(() => {
+                    // Because of how webflow tabs works we the pixi that is inside the tab that is hidden
+                    // will have a width and height of 0, so we need to resize it
+                    pixiApp.renderer.resize(pixiPlayer.width(), pixiPlayer.height());
+                    sprite.width = pixiApp.screen.width;
+                    sprite.height = pixiApp.screen.height;
+                }, 300);
                 currentSound.stop();
+            });
+        });
+
+        // ==============================
+        // CTA - 1
+        // ==============================
+        $('.cta-1_component').each(function () {
+            const imgWrapper = $(this).find('.cta-1_bg-image-wrapper');
+            let tl = gsap.timeline({
+                paused: true,
+                repeat: 0,
+                scrollTrigger: {
+                    trigger: $(this),
+                    start: "bottom 110%",
+                    end: "bottom top",
+                    markers: false,
+                    scrub: 2
+                }
+            });
+
+            tl.from(imgWrapper, {
+                y: '0%',
+                width: '90%',
+                ease: "power1.out"
+            });
+        });
+
+        // ==============================
+        // CTA - 3
+        // ==============================
+        $('.cta-3_component').each(function () {
+            const imgWrapper = $(this).find('.cta-3_img');
+            let tl = gsap.timeline({
+                paused: true,
+                repeat: 0,
+                scrollTrigger: {
+                    trigger: $(this),
+                    start: "top 110%",
+                    end: "bottom top",
+                    markers: false,
+                    scrub: 2
+                }
+            });
+
+            tl.from(imgWrapper, {
+                y: '-20%',
+                width: '80%',
+                ease: "power1.out"
             });
         });
     });  // Make sure to keep this in the end

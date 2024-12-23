@@ -47,52 +47,37 @@
 
 <!-- Buttons -->
 <style>
-    /* Primary */
-    [data-wf--button---primary--button-button---size="regular"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
+    [data-wf--button---primary--button-button---size="small"],
+    [data-wf--button---secondary--button-button---size="small"],
+    [data-wf--button---tertiary--button-button---size="small"],
+    [data-wf--button---quaternary--button-button---size="small"],
+    [data-wf--button---text--button-button---size="small"] {
+        & .button-icon_component {
+            width: var(--size-icon--xsmall);
+            height: var(--size-icon--xsmall);
+        }
     }
 
-    [data-wf--button---primary--button-button---size="small"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
+    [data-wf--button---primary--button-button---size="regular"],
+    [data-wf--button---secondary--button-button---size="regular"],
+    [data-wf--button---tertiary--button-button---size="regular"],
+    [data-wf--button---quaternary--button-button---size="regular"],
+    [data-wf--button---text--button-button---size="regular"] {
+        & .button-icon_component {
+            width: var(--size-icon--xsmall);
+            height: var(--size-icon--xsmall);
+        }
     }
 
-    [data-wf--button---primary--button-button---size="large"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
-    }
-
-    /* Secondary */
-    [data-wf--button---secondary--button-button---size="regular"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
-    }
-
-    [data-wf--button---secondary--button-button---size="small"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
-    }
-
-    [data-wf--button---secondary--button-button---size="large"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
-    }
-
-    /* Text */
-    [data-wf--button---text--button-button---size="regular"] .button-icon_component {
-        width: var(--size-icon--xsmall);
-        height: var(--size-icon--xsmall);
-    }
-
-    [data-wf--button---text--button-button---size="small"] .button-icon_component {
-        width: var(--size-icon--xxsmall);
-        height: var(--size-icon--xxsmall);
-    }
-
-    [data-wf--button---text--button-button---size="large"] .button-icon_component {
-        width: var(--size-icon--small);
-        height: var(--size-icon--small);
+    [data-wf--button---primary--button-button---size="large"],
+    [data-wf--button---secondary--button-button---size="large"],
+    [data-wf--button---tertiary--button-button---size="large"],
+    [data-wf--button---quaternary--button-button---size="large"],
+    [data-wf--button---text--button-button---size="large"] {
+        & .button-icon_component {
+            width: var(--size-icon--small);
+            height: var(--size-icon--small);
+        }
     }
 </style>
 
@@ -123,5 +108,14 @@
 
     .isolation-test-toggle_toogle.is-active .isolation-test-toggle_slider {
         transform: translate(100%, 0%);
+    }
+</style>
+
+<!-- CTA - 3 -->
+<style>
+    @media screen and (min-width: 992px) and (max-width: 1100px) {
+        .cta-3_img-wrapper {
+            width: 30rem;
+        }
     }
 </style>

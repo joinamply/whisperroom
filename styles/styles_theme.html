@@ -17,6 +17,10 @@
         --color-background--primary: var(--color-library--dark-grey-3);
     }
 
+    *:has(> [data-wf--admin---theme--theme="black"]) {
+        --color-background--primary: var(--color-library--black-whisperroom)
+    }
+
     *:has(> [data-wf--admin---theme--theme="gradient-1"]) {
         background-image: var(--color-library--gradient-1);
     }
@@ -38,7 +42,8 @@
 
     *:has(> [data-wf--admin---theme--theme="dark-grey-1"]),
     *:has(> [data-wf--admin---theme--theme="dark-grey-2"]),
-    *:has(> [data-wf--admin---theme--theme="dark-grey-3"]) {
+    *:has(> [data-wf--admin---theme--theme="dark-grey-3"]),
+    *:has(> [data-wf--admin---theme--theme="black"]) {
         /* Text */
         --color-text--primary: var(--color-library--white-whisperroom);
         --color-text--secondary: var(--color-library--white-whisperroom);
@@ -57,5 +62,8 @@
         /* Border Color */
         --color-border--primary: var(--color-library--white-whisperroom);
         --color-border--secondary: var(--color-library--grey-2);
+        /* Link - Text */
+        --color-action--text-text: var(--color-library--white-whisperroom);
+        --color-action--text-hover-text: var(--color-library--white)
     }
 </style>
