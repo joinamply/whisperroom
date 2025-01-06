@@ -1,6 +1,10 @@
 <style>
     /* Background Colors */
-    *:has(> [data-wf--admin---theme--theme="secondary"]) {
+    *:has(> [data-wf--admin---theme--theme="white"]) {
+        --color-background--primary: var(--color-library--white);
+    }
+
+    *:has(> [data-wf--admin---theme--theme="white-alt"]) {
         --color-background--primary: var(--color-library--white-alt);
         --color-background--secondary: var(--color-library--white);
     }
@@ -30,7 +34,8 @@
     }
 
     /* Other colors and variables */
-    *:has(> [data-wf--admin---theme--theme="secondary"]) {
+    *:has(> [data-wf--admin---theme--theme="white"]),
+    *:has(> [data-wf--admin---theme--theme="white-alt"]) {
         /* Text */
         --color-text--primary: var(--color-library--black-whisperroom);
         --color-text--secondary: var(--color-library--grey-7);

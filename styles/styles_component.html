@@ -36,47 +36,18 @@
     }
 </style>
 
+<!-- Button -->
+<style>
+    [icon-order="first"] {
+        order: -1;
+    }
+</style>
+
 <!-- Header 1 -->
 <style>
     @media screen and (min-width: 1490px) {
         .header-1_background-mask {
             opacity: 1;
-        }
-    }
-</style>
-
-<!-- Buttons -->
-<style>
-    [data-wf--button---primary--button-button---size="small"],
-    [data-wf--button---secondary--button-button---size="small"],
-    [data-wf--button---tertiary--button-button---size="small"],
-    [data-wf--button---quaternary--button-button---size="small"],
-    [data-wf--button---text--button-button---size="small"] {
-        & .button-icon_component {
-            width: var(--size-icon--xsmall);
-            height: var(--size-icon--xsmall);
-        }
-    }
-
-    [data-wf--button---primary--button-button---size="regular"],
-    [data-wf--button---secondary--button-button---size="regular"],
-    [data-wf--button---tertiary--button-button---size="regular"],
-    [data-wf--button---quaternary--button-button---size="regular"],
-    [data-wf--button---text--button-button---size="regular"] {
-        & .button-icon_component {
-            width: var(--size-icon--xsmall);
-            height: var(--size-icon--xsmall);
-        }
-    }
-
-    [data-wf--button---primary--button-button---size="large"],
-    [data-wf--button---secondary--button-button---size="large"],
-    [data-wf--button---tertiary--button-button---size="large"],
-    [data-wf--button---quaternary--button-button---size="large"],
-    [data-wf--button---text--button-button---size="large"] {
-        & .button-icon_component {
-            width: var(--size-icon--small);
-            height: var(--size-icon--small);
         }
     }
 </style>
@@ -108,6 +79,23 @@
 
     .isolation-test-toggle_toogle.is-active .isolation-test-toggle_slider {
         transform: translate(100%, 0%);
+    }
+</style>
+
+<!-- About Timeline -->
+<style>
+    @media screen and (min-width: 768px) {
+        .about-timeline_slot .about-timeline-item_component:first-child .about-timeline-item_top-wrapper {
+            border-top-color: transparent;
+        }
+    }
+</style>
+
+<!-- Image Gallery -->
+<style>
+    /* The first then every 3 items the child should be set to row span 2 */
+    .image-gallery_layout *:nth-child(4n + 1) {
+        grid-row: span 2;
     }
 </style>
 

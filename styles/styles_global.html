@@ -67,7 +67,11 @@
     }
 
     /* Hide element if collection is empty */
-    [hide-if-empty]:not(:has(.w-dyn-item)) {
+    [hide-if-cms-empty]:not(:has(.w-dyn-item)) {
+        display: none;
+    }
+
+    [hide-if-slot-empty]:not(:has(> *:not(.w-condition-invisible))) {
         display: none;
     }
 </style>
