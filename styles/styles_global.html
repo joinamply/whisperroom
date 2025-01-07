@@ -74,6 +74,14 @@
     [hide-if-slot-empty]:not(:has(> *:not(.w-condition-invisible))) {
         display: none;
     }
+
+    [hide-if-data-empty]:not(:has([data-item]:not(:empty))):not(:empty) {
+        display: none;
+    }
+
+    [data-item]:not(:has(> *:not(.w-condition-invisible))) {
+        display: none;
+    }
 </style>
 
 <!-- Amply Editor -->

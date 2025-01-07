@@ -93,8 +93,9 @@
 
 <!-- Image Gallery -->
 <style>
-    /* The first then every 3 items the child should be set to row span 2 */
-    .image-gallery_layout *:nth-child(4n + 1) {
+    [data-wf--element---grid-gallery--type="big-small-small"] *:nth-child(4n + 1),
+    [data-wf--element---grid-gallery--type="small-big-small"] *:nth-child(6n + 2),
+    [data-wf--element---grid-gallery--type="small-big-small"] *:nth-child(6n + 4) {
         grid-row: span 2;
     }
 </style>
