@@ -1,0 +1,119 @@
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const stdNoises = {
+            40: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            45: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            50: { 125: 17, 250: 17, 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            55: { 125: 18, 250: 19, 500: 18, 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            60: { 125: 19, 250: 20, 500: 19, 1000: 19, 2000: 20, 4000: 22 },
+            65: { 125: 20, 250: 21, 500: 21, 1000: 21, 2000: 21, 4000: 24 },
+            70: { 125: 21, 250: 22, 500: 23, 1000: 23, 2000: 23, 4000: 27 },
+            75: { 125: 22, 250: 24, 500: 25, 1000: 26, 2000: 25, 4000: 29 },
+            80: { 125: 23, 250: 25, 500: 27, 1000: 28, 2000: 28, 4000: 32 },
+            85: { 125: 25, 250: 27, 500: 30, 1000: 31, 2000: 30, 4000: 36 },
+            90: { 125: 26, 250: 29, 500: 32, 1000: 34, 2000: 33, 4000: 39 },
+            95: { 125: 27, 250: 31, 500: 35, 1000: 37, 2000: 36, 4000: 43 },
+            100: { 125: 29, 250: 33, 500: 39, 1000: 41, 2000: 39, 4000: 48 },
+            105: { 125: 31, 250: 35, 500: 42, 1000: 45, 2000: 43, 4000: 52 },
+            110: { 125: 32, 250: 37, 500: 46, 1000: 49, 2000: 47, 4000: 58 },
+        }
+
+        const stdRanges = {
+            40: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            45: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            50: { 125: '30 dB to 36 dB', 250: '30 dB to 36 dB', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            55: { 125: '34 dB to 40 dB', 250: '33 dB to 39 dB', 500: '34 dB to 40 dB', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            60: { 125: '38 dB to 44 dB', 250: '37 dB to 43 dB', 500: '38 dB to 44 dB', 1000: '38 dB to 44 dB', 2000: '37 dB to 43 dB', 4000: '35 dB to 41 dB' },
+            65: { 125: '42 dB to 48 dB', 250: '41 dB to 47 dB', 500: '41 dB to 47 dB', 1000: '41 dB to 47 dB', 2000: '41 dB to 47 dB', 4000: '38 dB to 44 dB' },
+            70: { 125: '46 dB to 52 dB', 250: '45 dB to 51 dB', 500: '44 dB to 50 dB', 1000: '44 dB to 50 dB', 2000: '44 dB to 50 dB', 4000: '40 dB to 46 dB' },
+            75: { 125: '50 dB to 56 dB', 250: '48 dB to 54 dB', 500: '47 dB to 53 dB', 1000: '46 dB to 52 dB', 2000: '47 dB to 53 dB', 4000: '43 dB to 49 dB' },
+            80: { 125: '54 dB to 60 dB', 250: '52 dB to 58 dB', 500: '50 dB to 56 dB', 1000: '49 dB to 55 dB', 2000: '49 dB to 55 dB', 4000: '45 dB to 51 dB' },
+            85: { 125: '57 dB to 63 dB', 250: '55 dB to 61 dB', 500: '52 dB to 58 dB', 1000: '51 dB to 57 dB', 2000: '52 dB to 58 dB', 4000: '46 dB to 52 dB' },
+            90: { 125: '61 dB to 67 dB', 250: '58 dB to 64 dB', 500: '55 dB to 61 dB', 1000: '53 dB to 59 dB', 2000: '54 dB to 60 dB', 4000: '48 dB to 54 dB' },
+            95: { 125: '65 dB to 71 dB', 250: '61 dB to 67 dB', 500: '57 dB to 63 dB', 1000: '55 dB to 61 dB', 2000: '56 dB to 62 dB', 4000: '49 dB to 55 dB' },
+            100: { 125: '68 dB to 74 dB', 250: '64 dB to 70 dB', 500: '58 dB to 64 dB', 1000: '56 dB to 62 dB', 2000: '58 dB to 64 dB', 4000: '49 dB to 55 dB' },
+            105: { 125: '71 dB to 77 dB', 250: '67 dB to 73 dB', 500: '60 dB to 66 dB', 1000: '57 dB to 63 dB', 2000: '59 dB to 65 dB', 4000: '50 dB to 56 dB' },
+            110: { 125: '75 dB to 81 dB', 250: '70 dB to 76 dB', 500: '61 dB to 67 dB', 1000: '58 dB to 64 dB', 2000: '60 dB to 66 dB', 4000: '49 dB to 55 dB' },
+        }
+
+        const enhNoises = {
+            40: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            45: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            50: { 125: 17, 250: 20, 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            55: { 125: 18, 250: 21, 500: 23, 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            60: { 125: 19, 250: 23, 500: 25, 1000: 29, 2000: 27, 4000: 28 },
+            65: { 125: 20, 250: 25, 500: 28, 1000: 31, 2000: 30, 4000: 30 },
+            70: { 125: 22, 250: 26, 500: 30, 1000: 34, 2000: 33, 4000: 33 },
+            75: { 125: 23, 250: 28, 500: 33, 1000: 37, 2000: 36, 4000: 36 },
+            80: { 125: 24, 250: 30, 500: 36, 1000: 41, 2000: 39, 4000: 40 },
+            85: { 125: 26, 250: 33, 500: 39, 1000: 45, 2000: 43, 4000: 44 },
+            90: { 125: 27, 250: 35, 500: 43, 1000: 49, 2000: 47, 4000: 48 },
+            95: { 125: 29, 250: 38, 500: 47, 1000: 53, 2000: 52, 4000: 52 },
+            100: { 125: 30, 250: 40, 500: 51, 1000: 58, 2000: 57, 4000: 57 },
+            105: { 125: 32, 250: 43, 500: 56, 1000: 63, 2000: 62, 4000: 63 },
+            110: { 125: 34, 250: 46, 500: 61, 1000: 69, 2000: 68, 4000: 69 },
+        }
+
+        const enhRanges = {
+            40: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            45: { 125: 'See Below', 250: 'See Below', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            50: { 125: '30 dB to 36 dB', 250: '27 dB to 33 dB', 500: 'See Below', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            55: { 125: '34 dB to 40 dB', 250: '31 dB to 37 dB', 500: '29 dB to 35 dB', 1000: 'See Below', 2000: 'See Below', 4000: 'See Below' },
+            60: { 125: '38 dB to 44 dB', 250: '34 dB to 40 dB', 500: '32 dB to 38 dB', 1000: '28 dB to 34 dB', 2000: '30 dB to 36 dB', 4000: '29 dB to 35 dB' },
+            65: { 125: '42 dB to 48 dB', 250: '37 dB to 43 dB', 500: '34 dB to 40 dB', 1000: '31 dB to 37 dB', 2000: '32 dB to 38 dB', 4000: '32 dB to 38 dB' },
+            70: { 125: '45 dB to 51 dB', 250: '41 dB to 47 dB', 500: '37 dB to 43 dB', 1000: '33 dB to 39 dB', 2000: '34 dB to 40 dB', 4000: '34 dB to 40 dB' },
+            75: { 125: '49 dB to 55 dB', 250: '44 dB to 50 dB', 500: '39 dB to 45 dB', 1000: '35 dB to 41 dB', 2000: '36 dB to 42 dB', 4000: '46 dB to 42 dB' },
+            80: { 125: '53 dB to 59 dB', 250: '47 dB to 53 dB', 500: '41 dB to 47 dB', 1000: '36 dB to 42 dB', 2000: '38 dB to 44 dB', 4000: '37 dB to 43 dB' },
+            85: { 125: '56 dB to 62 dB', 250: '49 dB to 55 dB', 500: '43 dB to 49 dB', 1000: '37 dB to 43 dB', 2000: '39 dB to 45 dB', 4000: '38 dB to 44 dB' },
+            90: { 125: '60 dB to 66 dB', 250: '52 dB to 58 dB', 500: '44 dB to 50 dB', 1000: '38 dB to 44 dB', 2000: '40 dB to 46 dB', 4000: '39 dB to 45 dB' },
+            95: { 125: '63 dB to 69 dB', 250: '54 dB to 60 dB', 500: '45 dB to 51 dB', 1000: '39 dB to 45 dB', 2000: '40 dB to 46 dB', 4000: '40 dB to 46 dB' },
+            100: { 125: '67 dB to 73 dB', 250: '57 dB to 63 dB', 500: '46 dB to 52 dB', 1000: '39 dB to 45 dB', 2000: '40 dB to 46 dB', 4000: '40 dB to 46 dB' },
+            105: { 125: '70 dB to 76 dB', 250: '59 dB to 65 dB', 500: '46 dB to 52 dB', 1000: '39 dB to 45 dB', 2000: '40 dB to 46 dB', 4000: '39 dB to 45 dB' },
+            110: { 125: '73 dB to 79 dB', 250: '61 dB to 67 dB', 500: '46 dB to 52 dB', 1000: '38 dB to 44 dB', 2000: '39 dB to 45 dB', 4000: '38 dB to 44 dB' },
+        }
+
+        const selectField = $('[booth-calc="select-field"]');
+        const enhNoiseResults = $('[booth-calc="enh-noise-result"]');
+        const enhRangeResults = $('[booth-calc="enh-range-result"]');
+        const stdNoiseResults = $('[booth-calc="std-noise-result"]');
+        const stdRageResults = $('[booth-calc="std-range-result"]');
+
+        function updateTable(dbValue) {
+            let objLength = Object.keys(stdNoises[dbValue]).length;
+            for (let i = 0; i < objLength; i++) {
+                enhNoiseResults.eq(i).text(Object.values(enhNoises[dbValue])[i]);
+                stdNoiseResults.eq(i).text(Object.values(stdNoises[dbValue])[i]);
+                enhRangeResults.eq(i).text(Object.values(enhRanges[dbValue])[i]);
+                stdRageResults.eq(i).text(Object.values(stdRanges[dbValue])[i]);
+            }
+        }
+
+        selectField.on('change', function () {
+            const selectedValue = parseFloat($(this).val());
+            updateTable(selectedValue);
+        });
+
+        // Update the select field to value of 70
+        selectField.val(70).trigger('change');
+
+        // ========== Tab Control ==========
+        const buttonTab1 = $('[booth-calc="tab-1-trigger"]');
+        const buttonTab2 = $('[booth-calc="tab-2-trigger"]');
+        const tab1 = $('[booth-calc="tab-1-target"]');
+        const tab2 = $('[booth-calc="tab-2-target"]');
+
+        buttonTab1.on('click', function () {
+            if (buttonTab1.hasClass('is-active')) return;
+            buttonTab1.addClass('is-active');
+            buttonTab2.removeClass('is-active');
+            tab1.trigger('click');
+        });
+
+        buttonTab2.on('click', function () {
+            if (buttonTab2.hasClass('is-active')) return;
+            buttonTab2.addClass('is-active');
+            buttonTab1.removeClass('is-active');
+            tab2.trigger('click');
+        });
+    });  // Make sure to keep this in the end
+</script>
