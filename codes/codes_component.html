@@ -257,11 +257,11 @@
         // ==============================
         // Heading - Word Animation
         // ==============================
-        let yOffset = 1; // Offset to avoid the next word to be visible
+        let yOffset = 0.5; // Offset to avoid the next word to be visible
         $('[el-wrapper="title"]').each(function () {
             let words = $(this).attr('words-anim-list') !== undefined ? $(this).attr('words-anim-list').split(',') : "";
             let wordToAnim = $(this).find('sub');
-            if (words.length <= 1 || wordToAnim.length <= 0) {
+            if (words.length < 1 || wordToAnim.length <= 0) {
                 return;
             }
             let parent = wordToAnim.parent();
@@ -276,8 +276,8 @@
             let wordsWrapper = document.createElement('span');
             $(wordsWrapper).css('display', 'flex');
             $(wordsWrapper).css('flex-direction', 'column');
-            $(wordsWrapper).css('justify-content', 'flex-start');
-            $(wordsWrapper).css('align-items', 'flex-start');
+            $(wordsWrapper).css('justify-content', $(this).attr('words-anim-justify'));
+            $(wordsWrapper).css('align-items', $(this).attr('words-anim-justify'));
             $(wordsWrapper).css('flex-grow', '0');
             $(wordsWrapper).css('flex-shrink', '0');
             // Add the sub word first

@@ -32,7 +32,20 @@
             & .navbar-dropdown_icon-v {
                 background-color: var(--color-library--black-whisperroom);
             }
+
+            & .navbar_search-input {
+                color: var(--color-library--black-whisperroom);
+                --navbar-search-placeholder: var(--color-library--grey-5);
+            }
+
+            & .navbar_search-icon {
+                filter: brightness(0%);
+            }
         }
+    }
+
+    [data-wf--navbar--color="dark"] {
+        --navbar-search-placeholder: var(--color-library--grey-5);
     }
 </style>
 
@@ -106,5 +119,21 @@
         .cta-3_img-wrapper {
             width: 30rem;
         }
+    }
+</style>
+
+<!-- Testimonials -->
+<style>
+    [testimonials="info-wrapper"] [testimonials="job-title"]:empty+[testimonials="job-divider"] {
+        display: none;
+    }
+
+    [testimonials="info-wrapper"] [testimonials="company"]:empty+[testimonials="job-divider"] {
+        display: none;
+    }
+
+    [testimonials="info-wrapper"] a[href="#"] {
+        text-decoration: none !important;
+        pointer-events: none;
     }
 </style>
