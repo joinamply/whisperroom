@@ -1,0 +1,84 @@
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollToPlugin.min.js"></script>
+
+<script>
+    window.fsAttributes = window.fsAttributes || [];
+    window.fsAttributes.push([
+        'cmsfilter',
+        (filterInstances) => {
+            console.log('cmsfilter Successfully loaded!');
+
+            // The callback passes a `filterInstances` array with all the `CMSFilters` instances on the page.
+            const [filterInstance] = filterInstances;
+
+            // Get the first radio box and add the is-active class
+            $('.resource-filter_radio-button-field').first().addClass('is-active');
+        },
+    ]);
+</script>
+
+<script>
+    function updateArrows() {
+        var pageCountText = $('.page-count').text();
+        var pages = pageCountText.split(' / ');
+        var currentPage = parseInt(pages[0]);
+        var totalPages = parseInt(pages[1]);
+
+        if (currentPage === 1) {
+            console.log("first page");
+            $('#prev').css({
+                'display': 'block',
+                'border-color': '#c3c9ce',
+                'pointer-events': 'none',
+                'cursor': 'default'
+            });
+        } else {
+            $('#prev').css({
+                'display': 'block',
+                'color': '#28292C',
+                'pointer-events': 'auto',
+                'cursor': 'pointer'
+            });
+        }
+
+        if (currentPage === totalPages) {
+            console.log("last page");
+            $('#next').css({
+                'display': 'block',
+                'color': '#c3c9ce',
+                'pointer-events': 'none',
+                'cursor': 'default'
+            });
+        } else {
+            $('#next').css({
+                'display': 'block',
+                'color': '#28292C',
+                'pointer-events': 'auto',
+                'cursor': 'pointer'
+            });
+        }
+    }
+
+    function triggerUpdate() {
+        console.log("clicked");
+        gsap.to(window, {
+            duration: 0.5,
+            scrollTo: {
+                y: '#posts-list',
+                autoKill: false
+            },
+            ease: "power2"
+        });
+        setTimeout(function () {
+            updateArrows();
+        }, 300);
+    }
+
+    $('#prev').on("click", triggerUpdate);
+    $(document).on('click', '#prev', triggerUpdate);
+    $(document).on('click', '[fs-cmsload-element="page-button"]', triggerUpdate);
+
+
+    $('#next').on("click", triggerUpdate);
+
+    $('[fs-cmsload-element="page-button"]').on("click", triggerUpdate);
+</script>

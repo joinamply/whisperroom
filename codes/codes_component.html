@@ -196,7 +196,7 @@
         // GLightbox 
         // For more info visit: https://github.com/biati-digital/glightbox
         // ==============================
-        $('.lightbox-simple_component').each(function (index) {
+        $('.lightbox_component').each(function (index) {
             const touchNavigation = $(this).attr('lb-touch-navigation');
             const loop = $(this).attr('lb-loop');
             const autoplayVideos = $(this).attr('lb-autoplay-videos');
@@ -205,7 +205,7 @@
                 touchNavigation: touchNavigation,
                 loop: loop,
                 autoplayVideos: autoplayVideos,
-                selector: '.lightbox-simple_component',
+                selector: '.lightbox_component',
             });
         });
 
@@ -258,6 +258,9 @@
         // Heading - Word Animation
         // ==============================
         let yOffset = 0.5; // Offset to avoid the next word to be visible
+        if (window.innerWidth <= 767) {
+            yOffset = 0;
+        }
         $('[el-wrapper="title"]').each(function () {
             let words = $(this).attr('words-anim-list') !== undefined ? $(this).attr('words-anim-list').split(',') : "";
             let wordToAnim = $(this).find('sub');
@@ -271,7 +274,7 @@
             parent.css('align-items', 'flex-start');
             parent.css('justify-content', 'flex-start');
             parent.css('overflow-y', 'hidden');
-            parent.css('height', `${wordToAnim.height() / 16}rem`);
+            parent.css('height', `${wordToAnim.outerHeight(true) / 16}rem`);
             // Adds a span to host the list of words
             let wordsWrapper = document.createElement('span');
             $(wordsWrapper).css('display', 'flex');
@@ -396,12 +399,25 @@
 
             let currentSound = sounds[0];
 
-            function updateSoundSource() {
-                currentSound.stop();
+            function setSoundType() {
                 if (currentType === "inside") {
                     currentSound = sounds[1];
                 } else {
                     currentSound = sounds[0];
+                }
+            }
+
+            function updateSoundSource() {
+                const currentTime = currentSound.seek();
+
+                if (currentSound.playing()) {
+                    currentSound.pause();
+                    setSoundType();
+                    currentSound.seek(currentTime);
+                    currentSound.play();
+                }
+                else {
+                    setSoundType();
                 }
             }
 
@@ -578,5 +594,76 @@
                 ease: "power1.out"
             });
         });
+
+        // ==============================
+        // Pagination
+        // ==============================
+        function updateArrows() {
+            var pageCountText = $('.page-count').text();
+            var pages = pageCountText.split(' / ');
+            var currentPage = parseInt(pages[0]);
+            var totalPages = parseInt(pages[1]);
+
+            if (currentPage === 1) {
+                console.log("first page");
+                $('#prev').css({
+                    'display': 'block',
+                    'border-color': '#c3c9ce',
+                    'pointer-events': 'none',
+                    'cursor': 'default'
+                });
+            } else {
+                $('#prev').css({
+                    'display': 'block',
+                    'color': '#28292C',
+                    'pointer-events': 'auto',
+                    'cursor': 'pointer'
+                });
+            }
+
+            if (currentPage === totalPages) {
+                console.log("last page");
+                $('#next').css({
+                    'display': 'block',
+                    'color': '#c3c9ce',
+                    'pointer-events': 'none',
+                    'cursor': 'default'
+                });
+            } else {
+                $('#next').css({
+                    'display': 'block',
+                    'color': '#28292C',
+                    'pointer-events': 'auto',
+                    'cursor': 'pointer'
+                });
+            }
+        }
+
+        function triggerScroll() {
+            gsap.to(window, {
+                duration: 0.5,
+                scrollTo: {
+                    y: '#top-of-list',
+                    autoKill: false
+                },
+                ease: "power2"
+            });
+        }
+
+        function triggerUpdate() {
+            triggerScroll();
+            setTimeout(function () {
+                updateArrows();
+            }, 300);
+        }
+
+        $('#prev').on("click", triggerUpdate);
+        $(document).on('click', '#prev', triggerUpdate);
+        $(document).on('click', '[fs-cmsload-element="page-button"]', triggerUpdate);
+
+
+        $('#next').on("click", triggerUpdate);
+
+        $('[fs-cmsload-element="page-button"]').on("click", triggerUpdate);
     });  // Make sure to keep this in the end
 </script>

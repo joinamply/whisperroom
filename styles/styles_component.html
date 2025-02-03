@@ -137,3 +137,45 @@
         pointer-events: none;
     }
 </style>
+
+<!-- Card Featured Blog -->
+<style>
+    img[src="https://cdn.prod.website-files.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"] {
+        display: none;
+    }
+</style>
+
+<!-- Button Pagination -->
+<style>
+    .button_pagination {
+        display: block !important;
+    }
+
+    .button_pagination.is-disabled {
+        border-top-color: #c3c9ce;
+        border-right-color: #c3c9ce;
+        border-bottom-color: #c3c9ce;
+        border-left-color: #c3c9ce;
+        pointer-events: none;
+    }
+</style>
+
+<!-- Card 2 -->
+<style>
+    .card-2_component:has(.link-absolute):hover .card-2_title-wrapper {
+        color: var(--color-action--primary-background);
+    }
+</style>
+
+<!-- Announcement Bar-->
+<style>
+    .page-wrapper:has(.announcement-bar[style*="width: 100%"]) .ew-sticky_component {
+        top: 9rem !important;
+    }
+
+    @media screen and (max-width: 991px) {
+        .page-wrapper:has(.announcement-bar[style*="width: 100%"]) .navbar_nav-menu {
+            height: calc(100dvh - 7.4rem);
+        }
+    }
+</style>
